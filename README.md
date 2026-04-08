@@ -105,7 +105,7 @@ Three unsupervised ML algorithms applied independently:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/IntelliGrid-EnergyGuard-AI.git
+git clone https://github.com/dev-ayusman/IntelliGrid-EnergyGuard-AI.git
 cd IntelliGrid-EnergyGuard-AI
 ```
 
