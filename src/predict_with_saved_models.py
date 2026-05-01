@@ -21,7 +21,7 @@ print("\n[1/4] Checking available models...")
 available_models = manager.list_models()
 
 if not available_models:
-    print("\n❌ No models found!")
+    print("\nNo models found!")
     print("   Please run 'complete_pipeline_with_saving.py' first to train and save models.")
     exit()
 
@@ -32,9 +32,9 @@ try:
     lof = manager.load_model('local_outlier_factor')
     elliptic = manager.load_model('elliptic_envelope')
     scaler = manager.load_model('feature_scaler')
-    print("✅ All models loaded successfully!")
+    print("All models loaded successfully!")
 except FileNotFoundError as e:
-    print(f"❌ Error: {e}")
+    print(f"Error: {e}")
     print("   Run 'complete_pipeline_with_saving.py' first.")
     exit()
 
@@ -47,7 +47,7 @@ sample_data = pd.DataFrame({
     'building_area': [5000, 5000, 5000, 5000, 5000]
 })
 
-print(f"✅ Created {len(sample_data)} sample records")
+print(f"Created {len(sample_data)} sample records")
 print(sample_data)
 
 # Scale features
@@ -69,21 +69,21 @@ results['iso_forest'] = ['Anomaly' if x == -1 else 'Normal' for x in iso_pred]
 results['lof'] = ['Anomaly' if x == -1 else 'Normal' for x in lof_pred]
 results['elliptic'] = ['Anomaly' if x == -1 else 'Normal' for x in elliptic_pred]
 results['votes'] = votes
-results['final_prediction'] = ['🚨 ANOMALY' if x == 1 else '✅ Normal' for x in is_anomaly]
+results['final_prediction'] = ['ANOMALY' if x == 1 else 'Normal' for x in is_anomaly]
 
-print("\n📊 PREDICTION RESULTS:")
+print("\nPREDICTION RESULTS:")
 print("=" * 80)
 print(results.to_string(index=False))
 
 # Summary
 anomaly_count = is_anomaly.sum()
-print(f"\n📈 SUMMARY:")
+print(f"\nSUMMARY:")
 print(f"   • Total predictions: {len(sample_data)}")
 print(f"   • Anomalies detected: {anomaly_count}")
 print(f"   • Normal readings: {len(sample_data) - anomaly_count}")
 
 print("\n" + "=" * 80)
-print("✅ PREDICTIONS COMPLETE!")
+print("PREDICTIONS COMPLETE!")
 print("=" * 80)
-print("\n💡 You can now use these models to predict on any new energy data!")
+print("\nYou can now use these models to predict on any new energy data!")
 print("   Just load the models and call predict() on scaled features.")

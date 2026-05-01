@@ -26,9 +26,9 @@ print("\n[1/7] Loading dataset...")
 data_files = list(Path('data/raw').glob('*.csv'))
 if data_files:
     df = pd.read_csv(data_files[0])
-    print(f"✅ Loaded {len(df):,} records with {df.shape[1]} features")
+    print(f"Loaded {len(df):,} records with {df.shape[1]} features")
 else:
-    print("❌ No data files found. Please download the dataset first.")
+    print("No data files found. Please download the dataset first.")
     exit()
 
 # STEP 2: Data Cleaning
@@ -45,7 +45,7 @@ if timestamp_cols:
     df[timestamp_cols[0]] = pd.to_datetime(df[timestamp_cols[0]], errors='coerce')
     df = df.sort_values(timestamp_cols[0])
 
-print(f"✅ Cleaned dataset: {len(df):,} records")
+print(f"Cleaned dataset: {len(df):,} records")
 
 # STEP 3: Feature Engineering
 print("\n[3/7] Engineering features...")
@@ -68,7 +68,7 @@ df['energy_deviation'] = (df[energy_col] - df['energy_rolling_mean_7d']) / (df['
 # Handle any remaining NaN
 df = df.fillna(0)
 
-print(f"✅ Created features. Total features: {df.shape[1]}")
+print(f"Created features. Total features: {df.shape[1]}")
 
 # STEP 4: Prepare for Modeling
 print("\n[4/7] Preparing for modeling...")
@@ -84,7 +84,7 @@ X = df[feature_cols].fillna(0)
 scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)
 
-print(f"✅ Selected {len(feature_cols)} features for modeling")
+print(f"Selected {len(feature_cols)} features for modeling")
 print(f"   Features: {feature_cols}")
 
 # STEP 5: Train Anomaly Detection Models
@@ -111,7 +111,7 @@ df['is_anomaly'] = (df['anomaly_votes'] >= 2).astype(int)
 anomaly_count = df['is_anomaly'].sum()
 anomaly_percent = (anomaly_count / len(df)) * 100
 
-print(f"✅ Models trained successfully")
+print(f"Models trained successfully")
 print(f"   Detected {anomaly_count:,} anomalies ({anomaly_percent:.2f}%)")
 
 # STEP 6: Visualize Results
@@ -158,7 +158,7 @@ if len(feature_cols) > 0:
 
 plt.tight_layout()
 plt.savefig('results/anomaly_detection_results.png', dpi=300, bbox_inches='tight')
-print("✅ Visualizations saved to: results/anomaly_detection_results.png")
+print("Visualizations saved to: results/anomaly_detection_results.png")
 plt.show()
 
 # STEP 7: Business Insights
@@ -169,7 +169,7 @@ avg_kwh_cost = 0.12
 total_anomaly_energy = df[df['is_anomaly']==1][energy_col].sum()
 anomaly_cost = total_anomaly_energy * avg_kwh_cost
 
-print(f"\n📊 KEY FINDINGS:")
+print(f"\nKEY FINDINGS:")
 print(f"   • Total anomalies detected: {anomaly_count:,} ({anomaly_percent:.2f}%)")
 print(f"   • Anomalous energy consumption: {total_anomaly_energy:,.0f} kWh")
 print(f"   • Estimated cost impact: ${anomaly_cost:,.2f}")
@@ -180,10 +180,10 @@ print(f"   • Average normal energy: {df[df['is_anomaly']==0][energy_col].mean(
 df[['is_anomaly', 'anomaly_votes'] + feature_cols + [energy_col]].to_csv(
     'results/anomaly_results.csv', index=False
 )
-print(f"\n✅ Results saved to: results/anomaly_results.csv")
+print(f"\nResults saved to: results/anomaly_results.csv")
 
 print("\n" + "=" * 80)
-print("✅ ANALYSIS COMPLETE!")
+print("ANALYSIS COMPLETE!")
 print("=" * 80)
 print(f"\nNext steps:")
 print(f"  1. Review the visualizations in results/anomaly_detection_results.png")

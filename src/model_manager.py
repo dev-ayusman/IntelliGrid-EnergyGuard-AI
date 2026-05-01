@@ -30,7 +30,7 @@ class ModelManager:
         # Save model
         model_path = self.models_dir / f"{model_name}.pkl"
         joblib.dump(model, model_path)
-        print(f"✅ Model saved: {model_path}")
+        print(f"Model saved: {model_path}")
         
         # Save metadata if provided
         if metadata:
@@ -38,7 +38,7 @@ class ModelManager:
             metadata_path = self.models_dir / f"{model_name}_metadata.json"
             with open(metadata_path, 'w') as f:
                 json.dump(metadata, f, indent=2)
-            print(f"✅ Metadata saved: {metadata_path}")
+            print(f"Metadata saved: {metadata_path}")
     
     def load_model(self, model_name):
         """
@@ -55,7 +55,7 @@ class ModelManager:
             raise FileNotFoundError(f"Model not found: {model_path}")
         
         model = joblib.load(model_path)
-        print(f"✅ Model loaded: {model_path}")
+        print(f"Model loaded: {model_path}")
         
         # Load metadata if available
         metadata_path = self.models_dir / f"{model_name}_metadata.json"

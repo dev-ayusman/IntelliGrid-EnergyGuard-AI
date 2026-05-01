@@ -3,15 +3,10 @@
 """
 Energy Anomaly Detection Package
 
-This package contains reusable modules for the energy anomaly detection project.
+This package contains modules for the energy anomaly detection project.
 """
 
 __version__ = "1.0.0"
-__author__ = "Your Name"
+__author__ = "Ayusman Choudhury"
 
-from . import data_loader
-from . import preprocessor
-from . import feature_engineering
-from . import anomaly_detector
-
-__all__ = ['data_loader', 'preprocessor', 'feature_engineering', 'anomaly_detector']
+__all__ = ['app', 'complete_pipeline', 'model_manager']

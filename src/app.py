@@ -19,14 +19,14 @@ st.markdown('''
 </style>
 ''', unsafe_allow_html=True)
 
-st.markdown('<p class="main-header">⚡ EnergyGuard AI</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-header">EnergyGuard AI</p>', unsafe_allow_html=True)
 st.markdown("### Intelligent Anomaly Detection for Commercial Buildings")
 st.markdown("---")
 
-uploaded_file = st.file_uploader("📁 Upload your chilledwater.csv file", type=['csv'])
+uploaded_file = st.file_uploader("Upload your chilledwater.csv file", type=['csv'])
 
 if uploaded_file is None:
-    st.info("👆 Please upload your CSV file to begin analysis")
+    st.info("Please upload your CSV file to begin analysis")
     st.stop()
 
 @st.cache_data
@@ -44,7 +44,7 @@ building_cols = [c for c in df_clean.columns if c != 'timestamp']
 completeness = df_clean[building_cols].count().sort_values(ascending=False)
 buildings = completeness.head(5).index.tolist()
 
-st.sidebar.header("⚙️ Control Panel")
+st.sidebar.header("Control Panel")
 selected_building = st.sidebar.selectbox(
     "Select Building", 
     buildings, 
@@ -54,7 +54,7 @@ selected_building = st.sidebar.selectbox(
 cost_per_unit = st.sidebar.slider("Energy Cost ($/unit)", 0.01, 0.20, 0.05, 0.01)
 sensitivity = st.sidebar.slider("Detection Sensitivity", 1, 10, 5)
 
-if st.button("🚀 Run Anomaly Detection", type="primary"):
+if st.button("Run Anomaly Detection", type="primary"):
     with st.spinner("Analyzing building data... Please wait"):
 
         # Prepare data
@@ -108,26 +108,26 @@ if st.button("🚀 Run Anomaly Detection", type="primary"):
 
         with col1:
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("🚨 Anomalies", int(total_anomalies))
+            st.metric("Anomalies", int(total_anomalies))
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col2:
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("📊 Anomaly Rate", f"{anomaly_rate:.2f}%")
+            st.metric("Anomaly Rate", f"{anomaly_rate:.2f}%")
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col3:
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("💚 Health Score", f"{health_score:.0f}/100")
+            st.metric("Health Score", f"{health_score:.0f}/100")
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col4:
             st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("💰 Cost Impact", f"${cost:,.0f}")
+            st.metric("Cost Impact", f"${cost:,.0f}")
             st.markdown('</div>', unsafe_allow_html=True)
 
         # Visualization
-        st.subheader("📈 Consumption Timeline")
+        st.subheader("Consumption Timeline")
 
         fig = go.Figure()
         normal_data = df_analysis[~df_analysis['is_anomaly']]
@@ -165,7 +165,7 @@ if st.button("🚀 Run Anomaly Detection", type="primary"):
 
         # Anomaly list
         if total_anomalies > 0:
-            st.subheader("📋 Detected Anomalies")
+            st.subheader("Detected Anomalies")
             anomaly_table = anomaly_data[[selected_building]].copy()
             anomaly_table['Severity'] = ['High' if v > normal_median * 3 else 'Medium' 
                                         for v in anomaly_data[selected_building]]
@@ -174,17 +174,17 @@ if st.button("🚀 Run Anomaly Detection", type="primary"):
 
             csv = anomaly_table.to_csv().encode('utf-8')
             st.download_button(
-                label="📥 Download Anomaly Report (CSV)",
+                label="Download Anomaly Report (CSV)",
                 data=csv,
                 file_name=f'anomalies_{selected_building}.csv'
             )
         else:
-            st.success("✅ No anomalies detected! Building is operating normally.")
+            st.success("No anomalies detected! Building is operating normally.")
 
         # Alert
         if anomaly_rate > 5:
             st.markdown(
-                "<div class='alert-box'><strong>⚠️ High Anomaly Alert!</strong><br>" +
+                "<div class='alert-box'><strong>High Anomaly Alert!</strong><br>" +
                 f"{selected_building.replace('_', ' ').title()} shows {anomaly_rate:.1f}% anomaly rate. " +
                 "Recommend immediate HVAC inspection.</div>", 
                 unsafe_allow_html=True
